@@ -37,22 +37,23 @@ function makeContent(data, name) {
     // console.log(endTime);
     // console.log(startTime < todaysDate);
     let wx = data[0].time[i].parameter.parameterName;
-    let wxDescription = data[0].time[i].parameter.parameterValue;
+    let wxDescription = parseInt(data[0].time[i].parameter.parameterValue);
     let pop = data[1].time[i].parameter.parameterName;
     let min = data[2].time[i].parameter.parameterName;
     let max = data[3].time[i].parameter.parameterName;
-    let div = document.createElement("div");
+    // let div = document.createElement("div");
     let date = switchDateToChinese(startDate);
     let timeZone = chooseTimeZone(
       startTime.slice(0, 10),
       todaysDate,
       endTime.slice(0, 10)
     );
+    let img = chooseImg(wxDescription);
     console.log(
       `${name}, ${startTime.slice(
         0,
         10
-      )} ${date}, ${timeZone}, ${min} - ${max}度, 降雨機率 ${pop} %, ${wx} 天氣現象代號 ${wxDescription}`
+      )} ${date}, ${timeZone}, ${min} - ${max}度, 降雨機率 ${pop} %, ${wx} 天氣現象代號 ${wxDescription}, ${img}`
     );
     //   let content = `<div class="infoWrap">
     //   <div id="name">${name}</div>
@@ -109,7 +110,6 @@ function addZero(num) {
 // 判斷時間區段
 function chooseTimeZone(startDate, today, endDate) {
   let timeZone = null;
-  console.log(startDate, today, endDate);
   if (startDate === today && today === endDate) {
     timeZone = "今日白天";
   } else if (startDate == today && today < endDate) {
@@ -120,21 +120,42 @@ function chooseTimeZone(startDate, today, endDate) {
   return timeZone;
 }
 
+function chooseImg(num) {
+  let imgAddress = null;
+  // 晴天
+  if (num == 1) {
+    imgAddress = "icon/076-sun-3.png";
+  }
+  // 多雲系列
+  else if (num > 1 && num < 7) {
+    imgAddress = "icon/006-cloudy-12.png";
+  }
+  // 陰天
+  else if (num == 7) {
+    imgAddress = "icon/014-cloud-8.png";
+  }
+  // 陣雨/雨天系列
+  else if (
+    (num > 7 && num < 12) ||
+    (num > 12 && num < 18) ||
+    (num > 28 && num < 42)
+  ) {
+    imgAddress = "icon/019-rain-22.png";
+  }
+  // 陣雨有太陽
+  else if (num == 12 || num == 15 || (num > 17 && num < 24)) {
+    imgAddress = "icon/042-storm-9.png";
+  }
+  // 霧
+  else if (num > 23 && num < 29) {
+    imgAddress = "icon/111-mist-01.png";
+  }
+
+  return imgAddress;
+}
+
 getCityData("臺北市");
 getCityData("新北市");
 getCityData("臺中市");
-getCityData("臺南市");
+getCityData("彰化縣");
 getCityData("高雄市");
-
-// 預計用來判斷放什麼天氣圖用的，還沒寫完
-// function chooseImg(number) {
-//   let imgAddress = null;
-//   switch (number) {
-//     case 1:
-//       imgAddress = "https://www.flaticon.com/free-icons/sun";
-//       break;
-//     case 1 < number <= 3:
-//       imgAddress = "https://www.flaticon.com/free-icons/weather";
-//   }
-//   return imgAddress;
-// }
