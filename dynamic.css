@@ -1,0 +1,58 @@
+* {
+  box-sizing: border-box;
+  background-color: white;
+}
+
+/* ---------------------------Hide...for ClassList.add/ toggle , etc.---------------------------- */
+.hide {
+  display: none;
+}
+
+/* ---------------------------Elements(+action)---------------------------- */
+.main__wrapper {
+  width: 400px;
+  height: 500px;
+  background-color: aliceblue;
+}
+.main__title {
+}
+.main__text {
+}
+.main__time {
+}
+.main__tempture {
+}
+.main__img {
+}
+
+.city {
+}
+.date {
+}
+.day {
+}
+.time {
+}
+.tempture {
+}
+
+.thermo {
+}
+.weather {
+}
+.leftArrow {
+}
+.rightArrow {
+}
+
+/* ---------------------------Elements(+action)---------------------------- */
+
+/* ---------------------------Fonts---------------------------- */
+.Body {
+}
+
+.Bold {
+}
+
+.Light {
+}
