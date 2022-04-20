@@ -2,6 +2,7 @@
   box-sizing: border-box;
   color: #888888;
   font-family: "Work Sans", sans-serif;
+  vertical-align: bottom;
 }
 
 .header__wrapper {
@@ -9,15 +10,11 @@
 }
 
 /* ---------------------------Hide...for ClassList.add/ toggle , etc.---------------------------- */
-.hide {
-  display: none;
-}
 
 /* ---------------------------Elements(+action)---------------------------- */
 main {
   display: flex;
   justify-content: center;
-
   align-items: center;
   flex-direction: column;
 }
@@ -31,7 +28,7 @@ main {
   flex-wrap: wrap;
 }
 
-.main__card {
+.card {
   width: 23%;
   height: 500px;
   background-color: white;
@@ -42,52 +39,56 @@ main {
   padding: 10px;
 
   display: grid;
-  grid-template-rows: 54px 36px 36px 230px 36px 36px;
-  grid-template-columns: repeat(2, 50%);
+  grid-template-rows: 60px 60px 240px 60px;
   position: relative;
 }
-.main__title {
-  width: 208px;
+
+.card__wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.card__wrapper:nth-child(2) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.card__title {
+  width: 120px;
   height: 54px;
   font-size: 40px;
   margin: auto 10px;
 }
-.main__text {
+.card__txt {
   font-size: 20px;
   vertical-align: bottom;
   margin: auto 15px;
-}
-.main__time {
-}
-.main__tempture {
-}
-.main__img {
+  text-align: center;
+  grid-column: 1/2;
 }
 
-.city {
-}
-.date {
-}
-.day {
-}
-.time {
-}
-.tempture {
+.card__msg {
+  font-size: 20px;
+  vertical-align: bottom;
+  margin: auto 15px;
+  text-align: center;
+  grid-column: 1/2;
 }
 
-.thermo {
+.card__icon {
   width: 70px;
   height: 70px;
   grid-column: 2/3;
-  grid-row: 2/4;
-  position: relative;
-  left: -20px;
+  grid-row: 1/3;
+  /* position: relative;
+  left: -20px; */
 }
-.weather {
+.card__img {
   width: 200px;
   height: 200px;
-  position: absolute;
-  top: 150px;
+  /* position: absolute;
+  top: 150px; */
   margin-left: auto;
   margin-right: auto;
   left: 0px;
@@ -108,26 +109,14 @@ main {
   right: 10px;
 }
 
-.humidity {
-  grid-column: 1/-1;
-  grid-row: 5/6;
-  margin: auto;
+/* ---------------------------media query---------------------------- */
+@media only screen and (max-width: 1200px) {
+  .main__wrapper {
+    width: 90%;
+  }
 }
 
-.condition {
-  grid-column: 1/-1;
-  grid-row: 6/7;
-  margin: auto;
-}
-
-/* ---------------------------Elements(+action)---------------------------- */
-
-/* ---------------------------Fonts---------------------------- */
-.Body {
-}
-
-.Bold {
-}
-
-.Light {
+@media only screen and (max-width: 600px) {
+  .main__wrapper {
+  }
 }
