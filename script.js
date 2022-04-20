@@ -72,17 +72,17 @@ function makeArrows(cityName, htmlId) {
     img1.style.cursor = "pointer";
     img2.src = "icon/rightArrow.png";
     img2.style.cursor = "pointer";
-    img1.addEventListener("click", function () {
+    img1.addEventListener("click", function (e) {
       if (currentTimeNum == 0) {
-        currentTimeNum = 2;
+        e.preventDefault();
       } else {
         currentTimeNum -= 1;
       }
       makeContent(cityName, htmlId, currentTimeNum);
     });
-    img2.addEventListener("click", function () {
+    img2.addEventListener("click", function (e) {
       if (currentTimeNum == 2) {
-        currentTimeNum = 0;
+        e.preventDefault();
       } else {
         currentTimeNum += 1;
       }
