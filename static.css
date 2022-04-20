@@ -20,6 +20,7 @@ body {
 #sun_white{
   position: absolute;
   left: 50px;
+  bottom: 0;
 }
 header{
   display: flex;
