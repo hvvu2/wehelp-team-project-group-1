@@ -9,68 +9,93 @@ async function getCityData(city) {
   });
   let res = await req.json();
   let data = res.records.location[0].weatherElement;
-  let locationName = res.records.location[0].locationName;
-  // console.log(res);
-  makeContent(data, locationName);
+  return data;
 }
 
-// 本來我自己是有貼出來看資料，但怕蓋到別人的東西我這邊就備註掉了
-// 大部分備註的東西都不重要，我只是用來確認東西，正式情況會砍掉
-function makeContent(data, name) {
-  // let wrap = document.querySelector(".wrap");
-  for (let i = 0; i < 3; i++) {
-    let startTime = data[0].time[i].startTime;
-    let endTime = data[0].time[i].endTime;
-    let startDate = new Date(startTime.slice(0, 10)).getDay();
-    // let endDate = new Date(endTime.slice(0, 10)).getDay();
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = addZero(today.getMonth() + 1);
-    let dates = addZero(today.getDate());
-    // let hours = addZero(today.getHours());
-    // let minutes = addZero(today.getMinutes());
-    // let sec = addZero(today.getMinutes());
-    // let todaysDate = `${year}-${month}-${dates} ${hours}:${minutes}:${sec}`;
-    let todaysDate = `${year}-${month}-${dates}`;
-    // console.log(startTime);
-    // console.log(todaysDate);
-    // console.log(endTime);
-    // console.log(startTime < todaysDate);
-    let wx = data[0].time[i].parameter.parameterName;
-    let wxDescription = parseInt(data[0].time[i].parameter.parameterValue);
-    let pop = data[1].time[i].parameter.parameterName;
-    let min = data[2].time[i].parameter.parameterName;
-    let max = data[3].time[i].parameter.parameterName;
-    // let div = document.createElement("div");
-    let date = switchDateToChinese(startDate);
-    let timeZone = chooseTimeZone(
-      startTime.slice(0, 10),
-      todaysDate,
-      endTime.slice(0, 10)
-    );
-    let img = chooseImg(wxDescription);
-    console.log(
-      `${name}, ${startTime.slice(
-        0,
-        10
-      )} ${date}, ${timeZone}, ${min} - ${max}度, 降雨機率 ${pop} %, ${wx} 天氣現象代號 ${wxDescription}, ${img}`
-    );
-    //   let content = `<div class="infoWrap">
-    //   <div id="name">${name}</div>
-    //   <div id="time">${startTime.slice(0, 10)} ${date}</div>
-    //   <div id="timeZone">${timeZone}</div>
-    //   <div id="temp">${min} - ${max}度</div>
-    //   <div id="rain">降雨機率 ${pop} %</div>
-    //   <div id="describe"> ${wx} 天氣現象代號 ${wxDescription}</div>
-    // </div>`;
-    //   console.log(div);
-    //   div.innerHTML = content;
-    //   wrap.append(div);
+async function makeContent(city, htmlId, timeNum = 0) {
+  let data = await getCityData(city);
+  let datePlace = document.querySelectorAll(`${htmlId} span`)[0];
+  let timeZonePlace = document.querySelectorAll(`${htmlId} span`)[1];
+  let tempPlace = document.querySelectorAll(`${htmlId} span`)[2];
+  let imgPlaces = document.querySelectorAll(`${htmlId} img`);
+  let wxPlace = document.querySelector(`${htmlId} p`);
+  let startTime = data[0].time[timeNum].startTime;
+  let endTime = data[0].time[timeNum].endTime;
+  // 當筆資料的月日
+  let dataDate = data[0].time[timeNum].startTime.slice(8, 10);
+  // 決定日期星期幾
+  let dayOfWeekEn = new Date(startTime.slice(0, 10)).getDay();
+  // let endDate = new Date(endTime.slice(0, 10)).getDay();
+  let today = new Date();
+
+  // 時間區段用
+  let year = today.getFullYear();
+  let month = addZero(today.getMonth() + 1);
+  let dates = addZero(today.getDate());
+  let todaysDate = `${year}-${month}-${dates}`;
+
+  // 天氣參數
+  let wx = data[0].time[timeNum].parameter.parameterName;
+  let wxDescription = parseInt(data[0].time[timeNum].parameter.parameterValue);
+  let pop = data[1].time[timeNum].parameter.parameterName;
+  let min = data[2].time[timeNum].parameter.parameterName;
+  let max = data[3].time[timeNum].parameter.parameterName;
+  let dayOfWeekCn = switchDayToChinese(dayOfWeekEn);
+
+  // 決定時間的區段
+  let timeZone = chooseTimeZone(
+    startTime.slice(0, 10),
+    todaysDate,
+    endTime.slice(0, 10)
+  );
+  let imgAddress = chooseImg(wxDescription);
+  // console.log(
+  //   `${city}, ${startTime.slice(
+  //     0,
+  //     10
+  //   )} ${dayOfWeekCn}, ${timeZone}, ${min} - ${max}度, 降雨機率 ${pop} %, ${wx} 天氣現象代號 ${wxDescription}, ${imgAddress}`
+  // );
+  datePlace.textContent = `${month}/${dataDate} ${dayOfWeekCn}`;
+  timeZonePlace.textContent = timeZone;
+  tempPlace.textContent = `${min} - ${max}°C`;
+  imgPlaces[0].src = "icon/5546088-046-01.png";
+  imgPlaces[1].src = imgAddress;
+  wxPlace.textContent = `${wx} 降雨機率 ${pop} %`;
+}
+
+function makeArrows(cityName, htmlId) {
+  let cardWraps = document.querySelector(`${htmlId}`);
+  let currentTimeNum = 0;
+  for (let i = 0; i < 1; i++) {
+    let img1 = document.createElement("img");
+    let img2 = document.createElement("img");
+    img1.classList.add("leftArrow");
+    img2.classList.add("rightArrow");
+    cardWraps.append(img1);
+    cardWraps.append(img2);
+    img1.src = "icon/leftArrow.png";
+    img2.src = "icon/rightArrow.png";
+    img1.addEventListener("click", function () {
+      if (currentTimeNum == 0) {
+        currentTimeNum = 2;
+      } else {
+        currentTimeNum -= 1;
+      }
+      makeContent(cityName, htmlId, currentTimeNum);
+    });
+    img2.addEventListener("click", function () {
+      if (currentTimeNum == 2) {
+        currentTimeNum = 0;
+      } else {
+        currentTimeNum += 1;
+      }
+      makeContent(cityName, htmlId, currentTimeNum);
+    });
   }
 }
 
 // 把抓出來的星期換成中文
-function switchDateToChinese(number) {
+function switchDayToChinese(number) {
   let date = null;
   switch (number) {
     case 0:
@@ -154,8 +179,12 @@ function chooseImg(num) {
   return imgAddress;
 }
 
-getCityData("臺北市");
-getCityData("新北市");
-getCityData("臺中市");
-getCityData("彰化縣");
-getCityData("高雄市");
+async function showContent(cityName, htmlId, timeNum) {
+  makeContent(cityName, htmlId, timeNum);
+  makeArrows(cityName, htmlId);
+}
+
+showContent("臺北市", "#js-taipei");
+showContent("新北市", "#js-new-taipei");
+showContent("臺中市", "#js-taichung");
+showContent("彰化縣", "#js-changhua");
