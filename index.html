@@ -4,13 +4,98 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com/%22%3E">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="static.css">
     <link rel="stylesheet" href="dynamic.css">
-    <title>五都天氣預報</title>
+    <title>WEATHER APP</title>
 </head>
 <body>
-    
+    <header class="header">
+        <h1 class="header__title">WEATHER APP</h1>
+        <img id="sun_img" src="img/sun.png">
+    </header>
+
+    <main class="main">
+        <article class="card" id="js-taipei">
+            <div class="card__wrapper">
+                <h1 class="card__title">台北市</h1>
+                <span class="card__txt"></span>
+            </div>
+
+            <div class="card__wrapper">
+                <span class="card__txt"></span>
+                <span class="card__txt"></span>
+                <img src="" class="card__icon">
+            </div>
+
+            <img src="" class="card__img">
+            <p class="card__msg"></p>
+            <p class="card__msg"></p>
+        </article>
+
+        <article class="card" id="js-new-taipei">
+            <div class="card__wrapper">
+                <h1 class="card__title">新北市</h1>
+                <span class="card__txt"></span>
+            </div>
+
+            <div class="card__wrapper">
+                <span class="card__txt"></span>
+                <span class="card__txt"></span>
+                <img src="" class="card__icon">
+            </div>
+
+            <img src="" class="card__img">
+            <p class="card__msg"></p>
+            <p class="card__msg"></p>
+        </article>
+
+        <article class="card" id="js-taichung">
+            <div class="card__wrapper">
+                <h1 class="card__title">台中市</h1>
+                <span class="card__txt"></span>
+            </div>
+
+            <div class="card__wrapper">
+                <span class="card__txt"></span>
+                <span class="card__txt"></span>
+                <img src="" class="card__icon">
+            </div>
+
+            <img src="" class="card__img">
+            <p class="card__msg"></p>
+            <p class="card__msg"></p>
+        </article>
+
+        <article class="card" id="js-changhua">
+            <div class="card__wrapper">
+                <h1 class="card__title">彰化市</h1>
+                <span class="card__txt"></span>
+            </div>
+
+            <div class="card__wrapper">
+                <span class="card__txt"></span>
+                <span class="card__txt"></span>
+                <img src="" class="card__icon">
+            </div>
+
+            <img src="" class="card__img">
+            <p class="card__msg"></p>
+            <p class="card__msg"></p>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <p class="footer__txt">copyright © weather app</p>
+        <img id="sun_white" src="img/sunWhite.png">
+    </footer>
     
     <script src="script.js"></script>
 </body>
 </html>
+
