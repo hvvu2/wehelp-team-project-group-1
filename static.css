@@ -3,13 +3,13 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Inter', sans-serif;
+  
 }
 
 body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  
   background-image: radial-gradient(#9DD6FF, #3A8FDE);
 }
 #sun_img{
