@@ -18,14 +18,13 @@ async function makeContent(city, htmlId, timeNum = 0) {
   let timeZonePlace = document.querySelectorAll(`${htmlId} span`)[1];
   let tempPlace = document.querySelectorAll(`${htmlId} span`)[2];
   let imgPlaces = document.querySelectorAll(`${htmlId} img`);
-  let wxPlace = document.querySelector(`${htmlId} p`);
+  let wxPlaces = document.querySelectorAll(`${htmlId} p`);
   let startTime = data[0].time[timeNum].startTime;
   let endTime = data[0].time[timeNum].endTime;
   // 當筆資料的月日
   let dataDate = data[0].time[timeNum].startTime.slice(8, 10);
   // 決定日期星期幾
   let dayOfWeekEn = new Date(startTime.slice(0, 10)).getDay();
-  // let endDate = new Date(endTime.slice(0, 10)).getDay();
   let today = new Date();
 
   // 時間區段用
@@ -49,18 +48,14 @@ async function makeContent(city, htmlId, timeNum = 0) {
     endTime.slice(0, 10)
   );
   let imgAddress = chooseImg(wxDescription);
-  // console.log(
-  //   `${city}, ${startTime.slice(
-  //     0,
-  //     10
-  //   )} ${dayOfWeekCn}, ${timeZone}, ${min} - ${max}度, 降雨機率 ${pop} %, ${wx} 天氣現象代號 ${wxDescription}, ${imgAddress}`
-  // );
+
   datePlace.textContent = `${month}/${dataDate} ${dayOfWeekCn}`;
   timeZonePlace.textContent = timeZone;
   tempPlace.textContent = `${min} - ${max}°C`;
   imgPlaces[0].src = "icon/5546088-046-01.png";
   imgPlaces[1].src = imgAddress;
-  wxPlace.textContent = `${wx} 降雨機率 ${pop} %`;
+  wxPlaces[0].textContent = `${wx}`;
+  wxPlaces[1].textContent = `降雨機率 ${pop} %`;
 }
 
 function makeArrows(cityName, htmlId) {
@@ -74,7 +69,9 @@ function makeArrows(cityName, htmlId) {
     cardWraps.append(img1);
     cardWraps.append(img2);
     img1.src = "icon/leftArrow.png";
+    img1.style.cursor = "pointer";
     img2.src = "icon/rightArrow.png";
+    img2.style.cursor = "pointer";
     img1.addEventListener("click", function () {
       if (currentTimeNum == 0) {
         currentTimeNum = 2;
