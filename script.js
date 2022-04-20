@@ -32,6 +32,8 @@ async function makeContent(city, htmlId, timeNum = 0) {
   let month = addZero(today.getMonth() + 1);
   let dates = addZero(today.getDate());
   let todaysDate = `${year}-${month}-${dates}`;
+  let tomorrowDate = `${year}-${month}-${dates + 1}`;
+  let dayAfterTomorrowDate = `${year}-${month}-${dates + 2}`;
 
   // 天氣參數
   let wx = data[0].time[timeNum].parameter.parameterName;
@@ -45,7 +47,9 @@ async function makeContent(city, htmlId, timeNum = 0) {
   let timeZone = chooseTimeZone(
     startTime.slice(0, 10),
     todaysDate,
-    endTime.slice(0, 10)
+    endTime.slice(0, 10),
+    tomorrowDate,
+    dayAfterTomorrowDate
   );
   let imgAddress = chooseImg(wxDescription);
 
@@ -72,20 +76,41 @@ function makeArrows(cityName, htmlId) {
     img1.style.cursor = "pointer";
     img2.src = "icon/rightArrow.png";
     img2.style.cursor = "pointer";
-    img1.addEventListener("click", function () {
+    img1.style.display = "none";
+
+    img1.addEventListener("click", function (e) {
       if (currentTimeNum == 0) {
-        currentTimeNum = 2;
-      } else {
+        e.preventDefault();
+      } 
+      
+      else if (currentTimeNum == 1) {
+        img1.style.display = "none";
         currentTimeNum -= 1;
       }
+
+      else {
+        currentTimeNum -= 1;
+        img2.style.display = "block";
+      }
+
       makeContent(cityName, htmlId, currentTimeNum);
     });
-    img2.addEventListener("click", function () {
+    img2.addEventListener("click", function (e) {
       if (currentTimeNum == 2) {
-        currentTimeNum = 0;
-      } else {
+        e.preventDefault();
+      } 
+      
+      else if (currentTimeNum == 1) {
+        img1.style.display = "block";
+        img2.style.display = "none";
         currentTimeNum += 1;
       }
+
+      else {
+        img1.style.display = "block";
+        currentTimeNum += 1;
+      }
+
       makeContent(cityName, htmlId, currentTimeNum);
     });
   }
@@ -130,14 +155,15 @@ function addZero(num) {
 }
 
 // 判斷時間區段
-function chooseTimeZone(startDate, today, endDate) {
-  let timeZone = null;
+function chooseTimeZone(startDate, today, endDate, tomorrow, dayAfterTomorrow) {
   if (startDate === today && today === endDate) {
     timeZone = "今日白天";
-  } else if (startDate == today && today < endDate) {
+  } else if (startDate === today && endDate === tomorrow) {
     timeZone = "今晚明晨";
-  } else {
+  } else if (tomorrow === startDate && tomorrow === endDate) {
     timeZone = "明日白天";
+  } else if (tomorrow === startDate && dayAfterTomorrow === endDate) {
+    timeZone = "明日晚上";
   }
   return timeZone;
 }
