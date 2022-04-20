@@ -68,6 +68,14 @@ main {
   grid-column: 1/2;
 }
 
+.card__msg {
+  font-size: 20px;
+  vertical-align: bottom;
+  margin: auto 15px;
+  text-align: center;
+  grid-column: 1/2;
+}
+
 .card__icon {
   width: 70px;
   height: 70px;
