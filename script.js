@@ -34,7 +34,6 @@ async function makeContent(city, htmlId, timeNum = 0) {
   let todaysDate = makeTimeSimple(today);
   let tomorrowDate = makeTimeSimple(tomorrow);
   let dayAfterTomorrowDate = makeTimeSimple(dayAfterTomorrow);
-  console.log(todaysDate);
 
   // 天氣參數
   let wx = data[0].time[timeNum].parameter.parameterName;
@@ -79,20 +78,41 @@ function makeArrows(cityName, htmlId) {
     img1.style.cursor = "pointer";
     img2.src = "icon/rightArrow.png";
     img2.style.cursor = "pointer";
+    img1.style.display = "none";
+
     img1.addEventListener("click", function (e) {
       if (currentTimeNum == 0) {
         e.preventDefault();
-      } else {
+      } 
+      
+      else if (currentTimeNum == 1) {
+        img1.style.display = "none";
         currentTimeNum -= 1;
       }
+
+      else {
+        currentTimeNum -= 1;
+        img2.style.display = "block";
+      }
+
       makeContent(cityName, htmlId, currentTimeNum);
     });
     img2.addEventListener("click", function (e) {
       if (currentTimeNum == 2) {
         e.preventDefault();
-      } else {
+      } 
+      
+      else if (currentTimeNum == 1) {
+        img1.style.display = "block";
+        img2.style.display = "none";
         currentTimeNum += 1;
       }
+
+      else {
+        img1.style.display = "block";
+        currentTimeNum += 1;
+      }
+
       makeContent(cityName, htmlId, currentTimeNum);
     });
   }
