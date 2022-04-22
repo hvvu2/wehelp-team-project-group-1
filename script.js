@@ -55,7 +55,7 @@ async function makeContent(city, htmlId, timeNum = 0) {
 
   datePlace.textContent = `${
     today.getMonth() + 1
-  }/${today.getDate()}/${dataDate} ${dayOfWeekCn}`;
+  }/${today.getDate() + 1}/${dataDate} ${dayOfWeekCn}`;
   timeZonePlace.textContent = timeZone;
   tempPlace.textContent = `${min} - ${max}°C`;
   imgPlaces[0].src = "icon/5546088-046-01.png";
