@@ -14,6 +14,7 @@ async function getCityData(city) {
 
 async function makeContent(city, htmlId, timeNum = 0) {
   let data = await getCityData(city);
+  console.log(data);
   let datePlace = document.querySelectorAll(`${htmlId} span`)[0];
   let timeZonePlace = document.querySelectorAll(`${htmlId} span`)[1];
   let tempPlace = document.querySelectorAll(`${htmlId} span`)[2];
@@ -26,14 +27,13 @@ async function makeContent(city, htmlId, timeNum = 0) {
   // 決定日期星期幾
   let dayOfWeekEn = new Date(startTime.slice(0, 10)).getDay();
   let today = new Date();
+  let tomorrow = new Date(new Date().valueOf() + 1000 * 3600 * 24);
+  let dayAfterTomorrow = new Date(new Date().valueOf() + 1000 * 3600 * 48);
 
   // 時間區段用
-  let year = today.getFullYear();
-  let month = addZero(today.getMonth() + 1);
-  let dates = addZero(today.getDate());
-  let todaysDate = `${year}-${month}-${dates}`;
-  let tomorrowDate = `${year}-${month}-${dates + 1}`;
-  let dayAfterTomorrowDate = `${year}-${month}-${dates + 2}`;
+  let todaysDate = makeTimeSimple(today);
+  let tomorrowDate = makeTimeSimple(tomorrow);
+  let dayAfterTomorrowDate = makeTimeSimple(dayAfterTomorrow);
 
   // 天氣參數
   let wx = data[0].time[timeNum].parameter.parameterName;
@@ -53,7 +53,9 @@ async function makeContent(city, htmlId, timeNum = 0) {
   );
   let imgAddress = chooseImg(wxDescription);
 
-  datePlace.textContent = `${month}/${dataDate} ${dayOfWeekCn}`;
+  datePlace.textContent = `${
+    today.getMonth() + 1
+  }/${today.getDate()} ${dayOfWeekCn}`;
   timeZonePlace.textContent = timeZone;
   tempPlace.textContent = `${min} - ${max}°C`;
   imgPlaces[0].src = "icon/5546088-046-01.png";
@@ -114,6 +116,15 @@ function makeArrows(cityName, htmlId) {
       makeContent(cityName, htmlId, currentTimeNum);
     });
   }
+}
+
+// 把整串的標準時間變成簡易的時間顯示
+function makeTimeSimple(date) {
+  let year = date.getFullYear();
+  let month = addZero(date.getMonth() + 1);
+  let dates = addZero(date.getDate());
+  let fullDate = `${year}-${month}-${dates}`;
+  return fullDate;
 }
 
 // 把抓出來的星期換成中文
